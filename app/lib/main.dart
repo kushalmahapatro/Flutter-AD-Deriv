@@ -75,7 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Image.network(data[index]['url']),
+                        const SizedBox(height: 8),
                         Text('Name: ${data[index]['name']}'),
+                        const SizedBox(height: 8),
                         Text('Created at: ${data[index]['created_at']}'),
                       ],
                     ),

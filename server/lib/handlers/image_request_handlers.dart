@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:mime/mime.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:server/utils/env_variables.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_multipart/form_data.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -89,7 +90,7 @@ class ImageRequestHandler {
       images.add({
         'id': id,
         'name': result[i]['name'],
-        'url': 'http://0.0.0.0:8080/image/$id',
+        'url': '${EnvVariables.url}/image/$id',
         'created_at': result[i]['created_at'].toString(),
       });
     }

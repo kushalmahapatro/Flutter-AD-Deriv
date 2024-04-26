@@ -42,10 +42,8 @@ class UpdateCommand extends Command<int> {
 
   @override
   FutureOr<int>? run() async {
-    // Directory currentDirectory = Directory.current;
+    Directory currentDirectory = Directory.current;
 
-    Directory currentDirectory = Directory(
-        '/Users/kushalmahapatro/Documents/App/Flutter-27-04-24/images');
     Directory outputDirectory =
         Directory(path.join(currentDirectory.path, 'generated_images'));
 
@@ -145,20 +143,20 @@ class UpdateCommand extends Command<int> {
   Future<void> _uploadFilesToServer(Directory outputDirectory) async {
     final List<FileSystemEntity> filesToUpload = outputDirectory.listSync();
     for (int i = 0; i < filesToUpload.length; i++) {
-      final FileSystemEntity data = filesToUpload[i];
-      final File file = File(data.path);
+      final File file = File(filesToUpload[i].path);
+
       final int total = (file.readAsBytesSync().length / 1000).ceil();
 
       final Completer completer = Completer();
       final Progress progress = _logger.progress(
         description: 'Uploading file no: ${(i + 1)}...',
         onDoneMessage: 'Uploading completed',
-        beforeStartMessage: 'Uploading started for ${data.path}',
+        beforeStartMessage: 'Uploading started for ${file.path}',
         suffixMessage: 'KB',
         total: total,
       );
 
-      _logger.verbose('Uploading file: ${data.path}');
+      _logger.verbose('Uploading file: ${file.path}');
 
       await UploadFile(file).start(
         onUploadProgress: (sentBytes, totalBytes) {

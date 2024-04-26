@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:server/handlers/image_request_handlers.dart';
+import 'package:server/utils/env_variables.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -31,9 +32,8 @@ void main(List<String> args) async {
       Pipeline().addMiddleware(logRequests()).addHandler(router.call);
 
   // For running in containers, we respect the PORT environment variable.
-  final port = int.parse(Platform.environment['PORT'] ?? '8080');
-  final server = await serve(handler, ip, port);
+  final server = await serve(handler, ip, EnvVariables.port);
 
   print('Server listening on port ${server.port}');
-  print('Server running on http://${ip.address}:${server.port}');
+  print('Server running on ${EnvVariables.url}');
 }
